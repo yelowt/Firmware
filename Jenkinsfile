@@ -58,6 +58,20 @@ pipeline {
                     sh "make nuttx_px4fmu-v3_rtps"
                     sh "make sizes"
                     sh "ccache -s"
+                    memoryMap(
+                      [
+                        gccParser(
+                          configurationFile: 'platforms/nuttx/nuttx-configs/px4fmu-v2/scripts/ld.script',
+                          graphConfiguration: [
+                            [graphCaption: 'Memory sections', graphDataList: '.data,.bss,.text'],
+                            [graphCaption: 'Target memory', graphDataList: 'rom,ram']
+                            ],
+                          mapFile: 'build/px4fmu-v2_default/nuttx_px4fmu-v2_default.map',
+                          parserTitle: 'GCC memory map',
+                          parserUniqueName: 'Gcc'
+                        )
+                      ]
+                    ) // memoryMap
                     archiveArtifacts(artifacts: 'build/*/*.px4', fingerprint: true)
                     archiveArtifacts(artifacts: 'build/*/*.elf', fingerprint: true)
                   }
