@@ -38,6 +38,7 @@
 
 #include <px4_module.h>
 #include <px4_module_params.h>
+#include <mathlib/mathlib.h>
 
 // publications
 #include <uORB/Publication.hpp>
@@ -66,7 +67,9 @@ class Commander : public ModuleBase<Commander>, public ModuleParams
 public:
 	Commander() :
 		ModuleParams(nullptr),
-		_mission_result_sub(ORB_ID(mission_result))
+		_mission_result_sub(ORB_ID(mission_result)),
+		_global_position_sub(ORB_ID(vehicle_global_position)),
+		_local_position_sub(ORB_ID(vehicle_local_position))
 	{
 	}
 
@@ -91,16 +94,16 @@ private:
 
 	DEFINE_PARAMETERS(
 
-	(ParamFloat<px4::params::COM_HOME_H_T>) _home_eph_threshold;
-	(ParamFloat<px4::params::COM_HOME_V_T>) _home_epv_threshold;
+	(ParamFloat<px4::params::COM_HOME_H_T>) _home_eph_threshold,
+	(ParamFloat<px4::params::COM_HOME_V_T>) _home_epv_threshold,
 
-	(ParamFloat<px4::params::COM_POS_FS_EPH>) _eph_threshold;
-	(ParamFloat<px4::params::COM_POS_FS_EPV>) _epv_threshold;
-	(ParamFloat<px4::params::COM_VEL_FS_EVH>) _evh_threshold;
+	(ParamFloat<px4::params::COM_POS_FS_EPH>) _eph_threshold,
+	(ParamFloat<px4::params::COM_POS_FS_EPV>) _epv_threshold,
+	(ParamFloat<px4::params::COM_VEL_FS_EVH>) _evh_threshold,
 
-	(ParamInt<px4::params::COM_POS_FS_DELAY>) _failsafe_pos_delay;
-	(ParamInt<px4::params::COM_POS_FS_PROB>) _failsafe_pos_probation;
-	(ParamInt<px4::params::COM_POS_FS_GAIN>) _failsafe_pos_gain;
+	(ParamInt<px4::params::COM_POS_FS_DELAY>) _failsafe_pos_delay,
+	(ParamInt<px4::params::COM_POS_FS_PROB>) _failsafe_pos_probation,
+	(ParamInt<px4::params::COM_POS_FS_GAIN>) _failsafe_pos_gain
 
 	)
 
