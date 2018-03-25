@@ -102,6 +102,12 @@ void LandDetector::_cycle()
 	_orb_update(ORB_ID(actuator_armed), _armingSub, &_arming);
 	_update_topics();
 
+
+	const bool freefall_state_init = _get_freefall_state();
+	const bool landed_state_init = _get_landed_state();
+	const bool maybe_landed_state_init = _get_maybe_landed_state();
+	const bool ground_contact_state_init = _get_ground_contact_state();
+
 	_freefall_hysteresis.update(_get_freefall_state());
 	_landed_hysteresis.update(_get_landed_state());
 	_maybe_landed_hysteresis.update(_get_maybe_landed_state());
@@ -112,6 +118,22 @@ void LandDetector::_cycle()
 	const bool maybe_landedDetected = _maybe_landed_hysteresis.get_state();
 	const bool ground_contactDetected = _ground_contact_hysteresis.get_state();
 	const float alt_max = _get_max_altitude();
+
+	if (landDetected != landed_state_init) {
+		PX4_ERR("landDetected: %d landed_state_init: %d", landDetected, landed_state_init);
+	}
+
+	if (freefallDetected != freefall_state_init) {
+		PX4_ERR("freefallDetected: %d freefall_state_init: %d", freefallDetected, freefall_state_init);
+	}
+
+	if (maybe_landedDetected != maybe_landed_state_init) {
+		PX4_ERR("maybe_landedDetected: %d maybe_landed_state_init: %d", maybe_landedDetected, maybe_landed_state_init);
+	}
+
+	if (ground_contactDetected != ground_contact_state_init) {
+		PX4_ERR("ground_contactDetected: %d ground_contact_state_init: %d", ground_contactDetected, ground_contact_state_init);
+	}
 
 	const hrt_abstime now = hrt_absolute_time();
 
