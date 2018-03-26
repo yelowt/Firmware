@@ -368,9 +368,13 @@
  */
 #define GPIO_TIM2_CH1_IN     /* PA5   T22C1  FMU_CAP1 */ GPIO_TIM2_CH1IN_3
 #define GPIO_TIM2_CH2_IN     /* PB3   T22C2  FMU_CAP2 */ GPIO_TIM2_CH2IN_2
-#define GPIO_TIM2_CH4_IN     /* PB1   T22C4  FMU_CAP3 */ GPIO_TIM2_CH4IN_2
+#define GPIO_TIM2_CH4_IN     /* PB11  T22C4  FMU_CAP3 */ GPIO_TIM2_CH4IN_2
 
 #define DIRECT_PWM_CAPTURE_CHANNELS  3
+
+/* TIM5_CH4 SPARE PIN */
+#define GPIO_TIM5_CH4IN    /* PI0   T5C4  TIM5_SPARE_4 */	GPIO_TIM5_CH4IN_2
+#define GPIO_TIM5_CH4OUT   /* PI0   T5C4  TIM5_SPARE_4 */   GPIO_TIM5_CH4OUT_2
 
 /* PWM
  *
@@ -426,6 +430,8 @@
 #define UI_LED_TIM5_CH1OUT /* PH10  T5C1  RED   */ GPIO_TIM5_CH1OUT_2
 #define UI_LED_TIM5_CH2OUT /* PH11  T5C2  GREEN */ GPIO_TIM5_CH2OUT_2
 #define UI_LED_TIM5_CH3OUT /* PH12  T5C3  BLUE  */ GPIO_TIM5_CH3OUT_2
+
+
 
 
 /* User GPIOs
@@ -527,6 +533,19 @@
 #define RC_UXART_BASE        STM32_USART6_BASE /* NOT FMUv5 test HW ONLY*/
 
 #define GPS_DEFAULT_UART_PORT "/dev/ttyS0" /* UART1 on FMUv5 */
+
+/* Input Capture Channels. */
+#define INPUT_CAP1_TIMER          		  2
+#define INPUT_CAP1_CHANNEL     /* T4C1 */ 1
+#define GPIO_INPUT_CAP1        /*  PA5 */ GPIO_TIM2_CH1_IN
+
+#define INPUT_CAP2_TIMER          		  2
+#define INPUT_CAP2_CHANNEL     /* T4C2 */ 2
+#define GPIO_INPUT_CAP2        /*  PB3 */ GPIO_TIM2_CH2_IN
+
+#define INPUT_CAP3_TIMER          		  2
+#define INPUT_CAP3_CHANNEL     /* T4C4 */ 4
+#define GPIO_INPUT_CAP3        /* PB11 */ GPIO_TIM2_CH4_IN
 
 /* PWM input driver. Use FMU AUX5 pins attached to timer4 channel 2 */
 #define PWMIN_TIMER          4
