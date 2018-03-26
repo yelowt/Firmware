@@ -263,16 +263,6 @@ static bool accelerometerCheck(orb_advert_t *mavlink_log_pub, unsigned instance,
 		goto out;
 	}
 
-	ret = h.ioctl(ACCELIOCSELFTEST, 0);
-
-	if (ret != OK) {
-		if (report_fail) {
-			mavlink_log_critical(mavlink_log_pub, "PREFLIGHT FAIL: ACCEL #%u TEST FAILED: %d", instance, ret);
-		}
-		success = false;
-		goto out;
-	}
-
 #ifdef __PX4_NUTTX
 	if (dynamic) {
 		/* check measurement result range */
@@ -572,10 +562,9 @@ out:
 bool preflightCheck(orb_advert_t *mavlink_log_pub, bool checkSensors, bool checkAirspeed, bool checkRC, bool checkGNSS,
 		    bool checkDynamic, bool isVTOL, bool reportFailures, bool prearm, hrt_abstime time_since_boot)
 {
-
 	if (time_since_boot < 2000000) {
-		// the airspeed driver filter doesn't deliver the actual value yet
-		return true;
+		// don't report errors for the first 2 seconds
+		reportFailures = false;
 	}
 
 #ifdef __PX4_QURT
